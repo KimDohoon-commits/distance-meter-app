@@ -64,6 +64,17 @@
         android:shadowDy="1"
         android:shadowRadius="3"/>
 
+    <!-- GPS 삼각측량 모드 전환 버튼 -->
+    <Button
+        android:id="@+id/btnGpsMode"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="12dp"
+        android:text="📡 GPS 모드"
+        android:textSize="12sp"
+        android:backgroundTint="#BB2196F3"/>
+
     <!-- 하단 안내 문구 -->
     <TextView
         android:id="@+id/tvStatus"

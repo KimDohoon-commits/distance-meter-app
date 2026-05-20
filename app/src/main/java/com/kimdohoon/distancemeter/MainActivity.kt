@@ -1,10 +1,12 @@
 package com.kimdohoon.distancemeter
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -66,6 +68,10 @@ class MainActivity : AppCompatActivity() {
             setEGLContextClientVersion(2)
             setRenderer(renderer)
             renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        }
+
+        findViewById<Button>(R.id.btnGpsMode).setOnClickListener {
+            startActivity(Intent(this, GpsTriangulationActivity::class.java))
         }
     }
 

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- 카메라 프리뷰 -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 반투명 오버레이 (가독성) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000"/>
+
+    <!-- 상단 정보바 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#CC000000"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <TextView
+            android:id="@+id/tvAzimuth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="방위각: --°"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvGpsStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="GPS 신호 대기 중..."
+            android:textColor="#AAFFFFFF"
+            android:textSize="13sp"/>
+
+    </LinearLayout>
+
+    <!-- 중앙 조준점 -->
+    <View
+        android:layout_width="2dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:alpha="0.9"/>
+
+    <View
+        android:layout_width="36dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:alpha="0.9"/>
+
+    <!-- 거리 결과 (중앙) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="58sp"
+            android:textStyle="bold"
+            android:shadowColor="#CC000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="6"/>
+
+        <TextView
+            android:id="@+id/tvDistanceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#CCFFFFFF"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <!-- 하단 패널 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#EE000000"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- A/B 상태 표시 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/tvPointA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="A: 대기 중"
+                android:textColor="#AAFFFFFF"
+                android:textSize="13sp"
+                android:padding="8dp"
+                android:background="#33FFFFFF"/>
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/tvPointB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="B: 대기 중"
+                android:textColor="#AAFFFFFF"
+                android:textSize="13sp"
+                android:padding="8dp"
+                android:background="#33FFFFFF"/>
+
+        </LinearLayout>
+
+        <!-- 안내 문구 -->
+        <TextView
+            android:id="@+id/tvGuide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="목표물에 조준한 뒤 A 찍기를 누르세요"
+            android:textColor="#FFFFD700"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- A / B / 초기화 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnRecordA"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="A 찍기"
+                android:textSize="16sp"
+                android:backgroundTint="#2196F3"/>
+
+            <View android:layout_width="8dp" android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/btnRecordB"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="B 찍기"
+                android:textSize="16sp"
+                android:backgroundTint="#4CAF50"
+                android:enabled="false"/>
+
+            <View android:layout_width="8dp" android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="초기화"
+                android:textSize="16sp"
+                android:backgroundTint="#757575"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
