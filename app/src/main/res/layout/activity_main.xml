@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- ARCore 카메라 렌더링 뷰 -->
+    <android.opengl.GLSurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 십자선 (세로) -->
+    <View
+        android:layout_width="2dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:alpha="0.8"/>
+
+    <!-- 십자선 (가로) -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:alpha="0.8"/>
+
+    <!-- 중앙 원 -->
+    <View
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_outline"/>
+
+    <!-- 거리 표시 (큰 텍스트) -->
+    <TextView
+        android:id="@+id/tvDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="80dp"
+        android:text="십자선을 겨냥하세요"
+        android:textColor="@android:color/white"
+        android:textSize="52sp"
+        android:textStyle="bold"
+        android:shadowColor="#CC000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"/>
+
+    <!-- 탭한 좌표 표시 (작은 텍스트) -->
+    <TextView
+        android:id="@+id/tvTapInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="148dp"
+        android:text=""
+        android:textColor="#CCFFFFFF"
+        android:textSize="14sp"
+        android:shadowColor="#CC000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="3"/>
+
+    <!-- 하단 안내 문구 -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="48dp"
+        android:padding="10dp"
+        android:text="ARCore 초기화 중..."
+        android:textColor="@android:color/white"
+        android:textSize="13sp"
+        android:background="#88000000"/>
+
+</FrameLayout>
