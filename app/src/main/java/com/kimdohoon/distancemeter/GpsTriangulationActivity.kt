@@ -10,11 +10,13 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -37,6 +39,13 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var btnRecordA: Button
     private lateinit var btnRecordB: Button
     private lateinit var btnReset: Button
+    private lateinit var btnZoomIn: Button
+    private lateinit var btnZoomOut: Button
+    private lateinit var tvZoomLevel: TextView
+
+    // ── 카메라/줌 ─────────────────────────────────────────────
+    private var camera: Camera? = null
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
 
     // ── 센서 ────────────────────────────────────────────────
     private lateinit var sensorManager: SensorManager
@@ -75,6 +84,9 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
         btnRecordA       = findViewById(R.id.btnRecordA)
         btnRecordB       = findViewById(R.id.btnRecordB)
         btnReset         = findViewById(R.id.btnReset)
+        btnZoomIn        = findViewById(R.id.btnZoomIn)
+        btnZoomOut       = findViewById(R.id.btnZoomOut)
+        tvZoomLevel      = findViewById(R.id.tvZoomLevel)
 
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -83,6 +95,24 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
         btnRecordA.setOnClickListener { recordPointA() }
         btnRecordB.setOnClickListener { recordPointB() }
         btnReset.setOnClickListener   { reset() }
+
+        // +/- 버튼 줌
+        btnZoomIn.setOnClickListener  { adjustZoom(1.3f) }
+        btnZoomOut.setOnClickListener { adjustZoom(1f / 1.3f) }
+
+        // 핀치 줌
+        scaleGestureDetector = ScaleGestureDetector(this,
+            object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+                override fun onScale(detector: ScaleGestureDetector): Boolean {
+                    adjustZoom(detector.scaleFactor)
+                    return true
+                }
+            })
+        previewView.setOnTouchListener { v, event ->
+            scaleGestureDetector.onTouchEvent(event)
+            v.performClick()
+            true
+        }
 
         checkPermissionsAndStart()
     }
@@ -149,9 +179,24 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
                 .also { it.setSurfaceProvider(previewView.surfaceProvider) }
             runCatching {
                 provider.unbindAll()
-                provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, preview)
+                camera = provider.bindToLifecycle(
+                    this, CameraSelector.DEFAULT_BACK_CAMERA, preview
+                )
+                // 줌 상태 실시간 반영
+                camera?.cameraInfo?.zoomState?.observe(this) { zoomState ->
+                    tvZoomLevel.text = "%.1fx".format(zoomState.zoomRatio)
+                }
             }
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun adjustZoom(factor: Float) {
+        val cam = camera ?: return
+        val currentRatio = cam.cameraInfo.zoomState.value?.zoomRatio ?: 1f
+        val minRatio     = cam.cameraInfo.zoomState.value?.minZoomRatio ?: 1f
+        val maxRatio     = cam.cameraInfo.zoomState.value?.maxZoomRatio ?: 10f
+        val newRatio     = (currentRatio * factor).coerceIn(minRatio, maxRatio)
+        cam.cameraControl.setZoomRatio(newRatio)
     }
 
     // ── GPS ──────────────────────────────────────────────────

@@ -60,6 +60,51 @@
         android:background="@android:color/white"
         android:alpha="0.9"/>
 
+    <!-- 줌 컨트롤 (우측 중앙) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnZoomIn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:padding="0dp"
+            android:backgroundTint="#CC000000"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/tvZoomLevel"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="1.0x"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginVertical="6dp"
+            android:background="#88000000"
+            android:padding="4dp"/>
+
+        <Button
+            android:id="@+id/btnZoomOut"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="−"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:padding="0dp"
+            android:backgroundTint="#CC000000"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
     <!-- 거리 결과 (중앙) -->
     <LinearLayout
         android:layout_width="wrap_content"
