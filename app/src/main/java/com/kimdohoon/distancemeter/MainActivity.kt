@@ -7,11 +7,14 @@ import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.ar.core.*
 import com.google.ar.core.ArCoreApk
 import com.google.ar.core.exceptions.*
@@ -70,8 +73,20 @@ class MainActivity : AppCompatActivity() {
             renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
         }
 
-        findViewById<Button>(R.id.btnGpsMode).setOnClickListener {
+        val btnGpsMode = findViewById<Button>(R.id.btnGpsMode)
+        btnGpsMode.setOnClickListener {
             startActivity(Intent(this, GpsTriangulationActivity::class.java))
+        }
+
+        // GPS 버튼 상태바 아래로
+        ViewCompat.setOnApplyWindowInsetsListener(btnGpsMode) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            (v.layoutParams as FrameLayout.LayoutParams).apply {
+                topMargin  = bars.top + 12
+                rightMargin = bars.right + 12
+            }
+            v.requestLayout()
+            insets
         }
     }
 

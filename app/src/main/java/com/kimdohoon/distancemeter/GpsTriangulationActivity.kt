@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import kotlin.math.*
 
 class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
@@ -91,6 +94,16 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
+        // 상태바 / 네비게이션바 영역 피하기
+        val topBar     = findViewById<LinearLayout>(R.id.topBar)
+        val bottomPanel = findViewById<LinearLayout>(R.id.bottomPanel)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { _, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            topBar.setPadding(14.dp, bars.top + 14.dp, 14.dp, 14.dp)
+            bottomPanel.setPadding(16.dp, 16.dp, 16.dp, bars.bottom + 16.dp)
+            insets
+        }
 
         btnRecordA.setOnClickListener { recordPointA() }
         btnRecordB.setOnClickListener { recordPointB() }
@@ -409,4 +422,7 @@ class GpsTriangulationActivity : AppCompatActivity(), SensorEventListener {
 
     private fun toast(msg: String) =
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
+    private val Int.dp: Int
+        get() = (this * resources.displayMetrics.density).toInt()
 }
